@@ -1,7 +1,9 @@
 /**
  * Created by Children on 29/06/2017.
  */
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import {Http} from '@angular/http';
 
 @Component({
     selector: 'register.component',
@@ -9,6 +11,17 @@ import { Component } from '@angular/core';
     styleUrls: ['./register.component.css']
 })
 
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
 
+    constructor(
+        private http: Http
+    ) {
+    }
+
+    ngOnInit(): void {
+    }
+
+    checkIfUserExists(form: NgForm ) {
+
+    }
 }
