@@ -7,12 +7,14 @@ import {LoginComponent} from '../components/login.component/login.component';
 import {RegisterComponent} from '../components/register.component/register.component';
 import {DisplayComponent} from '../components/display.component/display.component';
 import {EmailService} from '../services/email.service';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
     imports: [
         BrowserModule,
         HttpModule,
-        AppRoutingModule],
+        AppRoutingModule,
+        FormsModule],
     declarations: [
         AppComponent,
         LoginComponent,
