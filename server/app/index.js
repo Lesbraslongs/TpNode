@@ -1,43 +1,65 @@
-// =======================
-// get the packages we need ============
-// =======================
-var express     = require('express');
-var app         = express();
-var bodyParser  = require('body-parser');
-var morgan      = require('morgan');
-var mongoose    = require('mongoose');
+var express = require('express');
+var router = express.Router();
 
-var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
-var config = require('./config'); // get our config file
-var User   = require('./app/models/user'); // get our mongoose model
-
-// =======================
-// configuration =========
-// =======================
-var port = process.env.PORT || 8080; // used to create, sign, and verify tokens
-mongoose.connect(config.database); // connect to database
-app.set('superSecret', config.secret); // secret variable
-
-// use body parser so we can get info from POST and/or URL parameters
+var mongojs = require('mongojs');
+var db = mongojs('localhost/nodeapp', ['user']);
+var bodyParser = require("body-parser");
+app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// use morgan to log requests to the console
-app.use(morgan('dev'));
+/* GET home page. */
+// router.get('/', function(req, res, next) {
+//     res.render('index.html');
+// });
 
-// =======================
-// routes ================
-// =======================
-// basic route
-app.get('/', function(req, res) {
-    res.send('Hello! The API is at http://localhost:' + port + '/api');
+/* GET All login */
+router.get('/api/v1/login', function(req, res, next) {
+    db.user.find(function(err, user) {
+        if (err) {
+            res.send(err);
+        } else {
+            console.log(user);
+            console.log(req.body);
+        }
+    });
 });
 
-// API ROUTES -------------------
-// we'll get to these in a second
+//CHECK login/pwd
+app.post('/api/v1/login',function(req,res){
+  var login=req.body.login;
+  var password=req.body.password;
+  console.log("User name = "+user_name+", password is "+password);
+  if (user.login == login && user.password == password) {
+    router.get('/display', function(req,res) {
 
-// =======================
-// start the server ======
-// =======================
-app.listen(port);
-console.log('Magic happens at http://localhost:' + port);
+    });
+  }else {
+    router.get('/api/v1/login', function(req, res) {
+    var string = encodeURIComponent('something that would break');
+    res.redirect('/api/v1/login');
+    });
+  }
+  console.log(req.body);
+  res.end("yes");
+});
+
+/* POST/SAVE a Login */
+router.put('/login', function(req, res, next) {
+    var user = req.body;
+    if (!user.text || !(user.isCompleted + '')) {
+        res.status(400);
+        res.json({"error": "Invalid Data"});
+    } else {
+        db.user.save(user, function(err, result) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(result);
+            }
+        })
+    }
+});
+
+
+module.exports = router;
