@@ -1,5 +1,5 @@
 var User   = require('./../models/user.js'); // get our mongoose model
-const db = require('./../config/db');
+const db = require('./../config/db').db;
 
 class IndexCtrl {
 
@@ -8,45 +8,26 @@ class IndexCtrl {
     }
 
     checkIfUserExists(req, res) {
-console.log(User);
-        User.findOne({login: req.body._login}, function(err, document) {
-            console.log(err);
-            console.log(document);
-        });
-        // find the user
-        User.findOne({
-            login: req.body._login
-        }, function (err, user) {
-            console.log(user);
-            console.log(err);
 
+        var nick = new User({
+            login: 'adminAAB',
+            password: 'adminAAAB',
+            admin: true
+        });
+
+        // save the sample user
+        nick.save(function(err) {
             if (err) throw err;
 
-            if (!user) {
-                res.json({success: false, message: 'Authentication failed. User not found.'});
-            } else if (user) {
-
-                // check if password matches
-                if (user.password != req.body.password) {
-                    res.json({success: false, message: 'Authentication failed. Wrong password.'});
-                } else {
-
-                    // if user is found and password is right
-                    // create a token
-                    var token = jwt.sign(user, app.get('superSecret'), {
-                        expiresInMinutes: 1440 // expires in 24 hours
-                    });
-
-                    // return the information including token as JSON
-                    res.json({
-                        success: true,
-                        message: 'Enjoy your token!',
-                        token: token
-                    });
-                }
-            }
+            console.log('User saved successfully');
+            res.json({ success: true });
         });
-    }
+
+        User.findOne(null,function (err,res) {
+            console.log(err);
+                console.log(res);
+        });
+     }
 }
 
 module.exports = IndexCtrl;

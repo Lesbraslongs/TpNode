@@ -46,19 +46,19 @@ var apiRoutes = express.Router();
 app.get('/setup', function(req, res) {
 
   // create a sample user
-  var nick = new User({
-    login: 'admin',
-    password: 'admin',
-    admin: true
-  });
-
-  // save the sample user
-  nick.save(function(err) {
-    if (err) throw err;
-
-    console.log('User saved successfully');
-    res.json({ success: true });
-  });
+  // var nick = new User({
+  //   login: 'admin',
+  //   password: 'admin',
+  //   admin: true
+  // });
+  //
+  // // save the sample user
+  // nick.save(function(err) {
+  //   if (err) throw err;
+  //
+  //   console.log('User saved successfully');
+  //   res.json({ success: true });
+  // });
 });
 
 // get an instance of the router for api routes
