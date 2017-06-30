@@ -4,7 +4,7 @@ import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class UserFactory  {
+export class UserService  {
 
     private baseUrl = "http://localhost:3000/api/v1";
 

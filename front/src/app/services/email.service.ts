@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import { Email } from '../model/Email';
+import {Http} from '@angular/http';
 
 /**
  * Created by Children on 29/06/2017.
