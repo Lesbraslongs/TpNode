@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Login Page</h1>
-    <form #signupForm="ngForm" (ngSubmit)="checkIfUserExists(signupForm)">
+    <form #signupForm="ngForm" (ngSubmit)="registerUser(signupForm)">
         <div class="form-group">
             <label for="login">login : </label>
             <input type="text" id="login" name="login" placeholder="Entrez votre login" required >

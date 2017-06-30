@@ -8,6 +8,7 @@ import {RegisterComponent} from '../components/register.component/register.compo
 import {DisplayComponent} from '../components/display.component/display.component';
 import {EmailService} from '../services/email.service';
 import {FormsModule} from '@angular/forms';
+import {UserService} from "../services/user.service";
 
 @NgModule({
     imports: [
@@ -21,7 +22,7 @@ import {FormsModule} from '@angular/forms';
         RegisterComponent,
         DisplayComponent],
     bootstrap: [AppComponent],
-    providers: [ EmailService ]
+    providers: [ EmailService, UserService ]
 })
 export class AppModule {
 }

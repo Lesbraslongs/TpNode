@@ -1,9 +1,7 @@
-/**
- * Created by Children on 29/06/2017.
- */
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import {Http} from '@angular/http';
+import {User} from "../../model/User";
+import {UserService} from "../../services/user.service";
 
 @Component({
     selector: 'login.component',
@@ -13,15 +11,21 @@ import {Http} from '@angular/http';
 
 export class LoginComponent implements OnInit {
 
+    user = new User(null, '', '');
+
     constructor(
-        private http: Http
-    ) {
-    }
+        private userService: UserService
+    ) {}
 
     ngOnInit(): void {
     }
 
     checkIfUserExists(form: NgForm ) {
-
+        this.userService.postUser(form.value)
+            .then( user => {
+                console.log(user);)
+                this.user = user;
+            })
+            .catch()
     }
 }
