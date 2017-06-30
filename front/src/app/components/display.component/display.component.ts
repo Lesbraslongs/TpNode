@@ -1,7 +1,12 @@
 /**
  * Created by Children on 29/06/2017.
  */
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import {Http} from '@angular/http';
+
+import { Email } from '../../model/Email';
+import { EmailService } from '../../services/email.service';
 
 @Component({
     selector: 'display.component',
@@ -9,6 +14,44 @@ import { Component } from '@angular/core';
     styleUrls: ['./display.component.css']
 })
 
-export class DisplayComponent {
+export class DisplayComponent implements OnInit {
 
+    model : Email;
+    
+    emails : Email[];
+
+    constructor(
+        private http: Http,
+        private emailService: EmailService
+    ) {
+        this.model = new Email(1, "lavallee", "arnaud", "gmail.com");
+    }
+
+    ngOnInit(): void {
+        let emails = this.emailService.findAll();
+        for (let email of emails) {
+            this.buildEmail(email.firstname, email.name, email.domain);
+        }
+    }
+
+    addEmail(addEmailForm: NgForm) {
+        this.model = addEmailForm.form.value;
+        console.log(this.model);
+        this.emailService.create(this.model.firstname, this.model.name, this.model.domain).subscribe(
+            email => {
+                this.emails.push(email.firstname, email.name, email.domain);
+            }
+        );        
+    }
+    
+    buildEmail(firstname: string, name: string, domain: string) {
+        this.emails.push(firstname + name + '@' + domain);
+        this.emails.push(name + firstname + '@' + domain);
+        this.emails.push(firstname + '.' + name + '@' + domain);
+        this.emails.push(name + '.' + firstname + '@' + domain);
+        this.emails.push(firstname + '-' + name + '@' + domain);
+        this.emails.push(name + '-' + firstname + '@' + domain);
+        this.emails.push(firstname + '_' + name + '@' + domain);
+        this.emails.push(name + '_' + name + '@' + domain);
+    }
 }
