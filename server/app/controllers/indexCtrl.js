@@ -1,6 +1,6 @@
-const Controller = require('./Controller');
+var User   = require('./../models/user.js'); // get our mongoose model
 
-class IndexCtrl extends Controller {
+class IndexCtrl {
 
     registerUser(req, res) {
 

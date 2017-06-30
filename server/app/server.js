@@ -10,7 +10,6 @@ var corser      = require('corser');
 
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config/config.js'); // get our config file
-var User   = require('./models/user.js'); // get our mongoose model
 var IndexCtrl = require('./controllers/indexCtrl'); // get the controller
 
 // =======================
