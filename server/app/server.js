@@ -65,7 +65,7 @@ app.get('/setup', function(req, res) {
 var apiRoutes = express.Router();
 
 //Initialize controllers
-const indexCtrl = new IndexCtrl();
+const indexCtrl = new IndexCtrl(app);
 // PUT METHODS
 app.put('/api/v1/register', indexCtrl.registerUser.bind(indexCtrl));
 
