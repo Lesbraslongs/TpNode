@@ -1,19 +1,18 @@
 <div class="jumbotron" *ngIf="!authenticated">
     <h2>Login Form</h2>
-    <!-- We are going to build a reactive form and use many of the concepts we learned in the previous section in regards to validation. -->
-    <form [formGroup]="registerForm" (ngSubmit)="registerUser(loginForm.value)">
-        <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['login'].valid && loginForm.controls['login'].touched}">
+    <form [formGroup]="registerForm" (ngSubmit)="registerUser(registerForm.value)">
+        <div class="form-group" [ngClass]="{'has-error':!registerForm.controls['login'].valid && registerForm.controls['login'].touched}">
             <label>Login:</label>
-            <input class="form-control" type="text" placeholder="Entrez votre login" [formControl]="loginForm.controls['login']">
-            <div *ngIf="loginForm.controls['login'].hasError('required') && loginForm.controls['login'].touched" class="alert alert-danger">You must add a login.</div>
+            <input class="form-control" type="text" placeholder="Entrez votre login" [formControl]="registerForm.controls['login']">
+            <div *ngIf="registerForm.controls['login'].hasError('required') && registerForm.controls['login'].touched" class="alert alert-danger">You must add a login.</div>
         </div>
-        <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['password'].valid && loginForm.controls['password'].touched}">
+        <div class="form-group" [ngClass]="{'has-error':!registerForm.controls['password'].valid && registerForm.controls['password'].touched}">
             <label>Password:</label>
-            <input class="form-control" type="password" placeholder="Entrez votre password" [formControl]="loginForm.controls['password']">
-            <div *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched" class="alert alert-danger">You must add a password.</div>
+            <input class="form-control" type="password" placeholder="Entrez votre password" [formControl]="registerForm.controls['password']">
+            <div *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].touched" class="alert alert-danger">You must add a password.</div>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Submit</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">Submit</button>
         </div>
     </form>
 </div>

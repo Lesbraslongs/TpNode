@@ -42,11 +42,13 @@ export class LoginComponent {
                 (res:any)=>{
                     console.log(res);
                     // We’ll subscribe to the request and capture the response
-                    let data = res.json();
+                    let data = res.json;
                     // If we get an id_token, we’ll know the request is successful so we’ll store the token in localStorage. We won’t handle the error use case for this tutorial.
                     //TODO define the name of the token
-                    if(data.id_token){
+                    if(data.token){
                         localStorage.setItem('jwt', data.id_token);
+                    }else{
+                        console.log(data.message);
                     }
                     this.loginForm.reset();
                 }

@@ -1,0 +1,41 @@
+{
+  "name": "tpnode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChildrenOfTek/TpNode.git"
+  },
+  "keywords": [
+    "tp",
+    "node",
+    "csv",
+    "email"
+  ],
+  "author": "Arnaud Vincent Amadou",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChildrenOfTek/TpNode/issues"
+  },
+  "homepage": "https://github.com/ChildrenOfTek/TpNode#readme",
+  "dependencies": {
+    "argparse": "^1.0.9",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "corser": "^2.0.1",
+    "ejs": "^2.5.6",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
+    "mongodb": "^2.2.29",
+    "mongojs": "^2.4.0",
+    "mongoose": "^4.11.0",
+    "morgan": "^1.8.2",
+    "nodemon": "^1.11.0",
+    "path": "^0.12.7",
+    "pug": "^2.0.0-rc.2"
+  }
+}

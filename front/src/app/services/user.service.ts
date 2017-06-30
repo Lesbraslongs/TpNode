@@ -6,19 +6,19 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class UserService  {
 
-    private baseUrl = "http://localhost:8080/api/v1";
+    private baseUrl = "http://localhost:8080/api/v1/login";
 
     constructor(private http: Http){}
 
     checkIfExists(user: User){
-        return this.http.post(`${this.baseUrl}/login`, user)
+        return this.http.post(`${this.baseUrl}`, user)
             .toPromise()
             .then( response => response.json())
             .catch(this.handleError);
     }
 
     registerUser(user: User) {
-        return this.http.put(`${this.baseUrl}/login`,user)
+        return this.http.put(`${this.baseUrl}`,user)
             .toPromise()
             .then( response => response.json())
             .catch(this.handleError);
