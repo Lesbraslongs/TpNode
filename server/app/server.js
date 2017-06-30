@@ -14,7 +14,7 @@ var User   = require('./models/user.js'); // get our mongoose model
 // =======================
 // configuration =========
 // =======================
-var port = process.env.PORT || 8080; // used to create, sign, and verify tokens
+var port = process.env.PORT || 3000; // used to create, sign, and verify tokens
 mongoose.connect(config.database); // connect to database
 app.set('superSecret', config.secret); // secret variable
 
@@ -30,11 +30,52 @@ app.use(morgan('dev'));
 // =======================
 // basic route
 app.get('/', function(req, res) {
-    res.send('Hello! The API is at http://localhost:' + port + '/api');
+    res.send('Hello! The API is at http://localhost:' + port + '/api/v1/login');
 });
 
 // API ROUTES -------------------
-// we'll get to these in a second
+
+// get an instance of the router for api routes
+var apiRoutes = express.Router();
+
+// route to authenticate a user (POST http://localhost:8080/api/authenticate)
+apiRoutes.post('/api/v1/login', function(req, res) {
+
+  // find the user
+  User.findOne({
+    name: req.body.name
+  }, function(err, user) {
+
+    if (err) throw err;
+
+    if (!user) {
+      res.json({ success: false, message: 'Authentication failed. User not found.' });
+    } else if (user) {
+
+      // check if password matches
+      if (user.password != req.body.password) {
+        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+      } else {
+
+        // if user is found and password is right
+        // create a token
+        var token = jwt.sign(user, app.get('superSecret'), {
+          expiresInMinutes: 1440 // expires in 24 hours
+        });
+
+        // return the information including token as JSON
+        res.json({
+          success: true,
+          message: 'Enjoy your token!',
+          token: token
+        });
+      }
+
+    }
+
+  });
+});
+
 
 // =======================
 // start the server ======
