@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from "../../model/User";
 import {Router} from "@angular/router";
-import {UserFactory} from "../../services/user.factory";
+import {UserService} from "../../services/user.service";
 
 @Component({
     selector: 'login.component',
@@ -12,14 +12,12 @@ import {UserFactory} from "../../services/user.factory";
 
 export class LoginComponent {
 
-    private url = "http://localhost:3000/api/v1/login";
-    // We are going to declare our variables here. We’ll have a loginForm that will represent our reactive form, an authenticated boolean that will be true or false based on the users auth status and finally a profile object that will hold the user data.
     loginForm : FormGroup;
     authenticated: boolean;
 
     constructor(
         fb: FormBuilder,
-        private userFactory: UserFactory,
+        private userService: UserService,
         private router: Router
     ) {
         if(localStorage.getItem('jwt')){
@@ -39,18 +37,24 @@ export class LoginComponent {
         user.login = value.login;
         user.password = value.password;
 
-        this.userFactory.checkIfExists(user).subscribe(
-            (res:any)=>{
-                // We’ll subscribe to the request and capture the response
-                let data = res.json();
-                // If we get an id_token, we’ll know the request is successful so we’ll store the token in localStorage. We won’t handle the error use case for this tutorial.
-                //TODO define the name of the token
-                if(data.id_token){
-                    localStorage.setItem('jwt', data.id_token);
+        this.userService.checkIfExists(user)
+            .then(
+                (res:any)=>{
+                    console.log(res);
+                    // We’ll subscribe to the request and capture the response
+                    let data = res.json();
+                    // If we get an id_token, we’ll know the request is successful so we’ll store the token in localStorage. We won’t handle the error use case for this tutorial.
+                    //TODO define the name of the token
+                    if(data.id_token){
+                        localStorage.setItem('jwt', data.id_token);
+                    }
+                    this.loginForm.reset();
                 }
+            )
+            .catch(error => {
+                console.log(error);
                 this.loginForm.reset();
-            }
-        )
+            })
     }
 
     logout(){

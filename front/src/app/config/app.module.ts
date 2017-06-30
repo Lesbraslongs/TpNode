@@ -7,7 +7,8 @@ import {LoginComponent} from '../components/login.component/login.component';
 import {RegisterComponent} from '../components/register.component/register.component';
 import {DisplayComponent} from '../components/display.component/display.component';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {UserFactory} from "../services/user.factory";
+import {UserService} from "../services/user.service";
+import {EmailService} from "../services/email.service";
 
 @NgModule({
     imports: [
@@ -23,7 +24,7 @@ import {UserFactory} from "../services/user.factory";
         RegisterComponent,
         DisplayComponent],
     bootstrap: [AppComponent],
-    providers: [UserFactory, FormBuilder ]
+    providers: [UserService, EmailService, FormBuilder ]
 })
 export class AppModule {
 }

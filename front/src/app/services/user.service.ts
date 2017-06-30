@@ -1,16 +1,25 @@
-import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {User} from "../model/User";
-
+import {Injectable} from "@angular/core";
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class UserService {
-    private apiUrl = "http://localhost:3000/api/v1/";
-    private headers = new Headers({'Content-Type' : 'application/json'});
+export class UserService  {
 
-    constructor(
-        private http: Http
-    ){}
+    private baseUrl = "http://localhost:3000/api/v1";
+
+    constructor(private http: Http){}
+
+    checkIfExists(user: User){
+        return this.http.post(`${this.baseUrl}/login`, user)
+            .toPromise()
+            .then( response => response.json())
+            .catch(this.handleError);
+    }
+
+    registerUser(user: User) {
+        return this.http.put(`${this.baseUrl}/login`,user);
+    }
 
     private handleError(error: any): Promise<any> {
         console.error('An error occured', error);
@@ -18,27 +27,4 @@ export class UserService {
         return Promise.reject(error.message || error);
     };
 
-    postUser(value: any): Promise<User> {
-        const url = `${this.apiUrl}/users`;
-
-        return this.http.post(url,value)
-            .toPromise()
-            .then(
-                //TODO set cookies with authorized user
-                response => {
-                    // return new User(response.id,response.login, response.password);
-                    return new User();
-                }
-            )
-            .catch(this.handleError);
-    }
-
-    saveUser(user: User){
-        const url = `${this.apiUrl}/users`;
-
-        return this.http.put(url,user)
-            .toPromise()
-            .then()
-            .catch(this.handleError)
-    }
 }
