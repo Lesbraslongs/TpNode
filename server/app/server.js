@@ -11,6 +11,7 @@ var corser      = require('corser');
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config/config.js'); // get our config file
 var User   = require('./models/user.js'); // get our mongoose model
+var IndexCtrl = require('./controllers/indexCtrl'); // get the controller
 
 // =======================
 // configuration =========
@@ -66,43 +67,14 @@ app.get('/setup', function(req, res) {
 // get an instance of the router for api routes
 var apiRoutes = express.Router();
 
+//Initialize controllers
+const indexCtrl = new IndexCtrl();
+// PUT METHODS
+app.put('/api/v1/register', indexCtrl.registerUser.bind(indexCtrl));
+
+// POST METHODS
 // route to authenticate a user (POST http://localhost:8080/api/v1/login)
-app.post('/api/v1/login', function(req, res) {
-
-  // find the user
-  User.findOne({
-    name: req.body.name
-  }, function(err, user) {
-
-    if (err) throw err;
-
-    if (!user) {
-      res.json({ success: false, message: 'Authentication failed. User not found.' });
-    } else if (user) {
-
-      // check if password matches
-      if (user.password != req.body.password) {
-        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
-      } else {
-
-        // if user is found and password is right
-        // create a token
-        var token = jwt.sign(user, app.get('superSecret'), {
-          expiresInMinutes: 1440 // expires in 24 hours
-        });
-
-        // return the information including token as JSON
-        res.json({
-          success: true,
-          message: 'Enjoy your token!',
-          token: token
-        });
-      }
-
-    }
-
-  });
-});
+app.post('/api/v1/login', indexCtrl.checkIfUserExists.bind(indexCtrl));
 
 // route middleware to verify a token
 apiRoutes.use(function(req, res, next) {
