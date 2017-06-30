@@ -18,7 +18,7 @@ export class DisplayComponent implements OnInit {
 
     model : Email;
     
-    emails : Email[];
+    emails : string[];
 
     constructor(
         private http: Http,
@@ -37,11 +37,7 @@ export class DisplayComponent implements OnInit {
     addEmail(addEmailForm: NgForm) {
         this.model = addEmailForm.form.value;
         console.log(this.model);
-        this.emailService.create(this.model.firstname, this.model.name, this.model.domain).subscribe(
-            email => {
-                this.emails.push(email.firstname, email.name, email.domain);
-            }
-        );        
+        this.emailService.create(this.model.firstname, this.model.name, this.model.domain);        
     }
     
     buildEmail(firstname: string, name: string, domain: string) {

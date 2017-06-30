@@ -11,42 +11,31 @@ import {Http} from '@angular/http';
 @Injectable()
 export class EmailService {
     private emailUrl = 'api/v1/emails';  // URL to web api
-    private headers = new Headers({'Content-Type': 'application/json'});
  
     constructor(private http: Http) { }
      
-    findAll() {
-        return this.http.get(this.emailUrl)
-                 .toPromise()
-                 .then(response => response.json().data as Email[]);
+    findAll():any {
+        return this.http.get(this.emailUrl);
     }
     
     findById(id : number) {
         const url = `${this.emailUrl}/${id}`;
-        return this.http.get(url)
-            .toPromise()
-            .then(response => response.json().data as Email);
+        return this.http.get(url);
     }
     
     create(name: string, firstname: string, domain: string) {
         return this.http
-          .post(this.emailUrl, JSON.stringify({name: name, firstname: firstname, domain: domain}), {headers: this.headers})
-          .toPromise()
-          .then(res => res.json().data as Email);
+          .post(this.emailUrl, JSON.stringify({name: name, firstname: firstname, domain: domain}));
     }
     
     update(email: Email) {
         const url = `${this.emailUrl}/${email.id}`;
         return this.http
-            .put(url, JSON.stringify(email), {headers: this.headers})
-            .toPromise()
-            .then(() => email);
+            .put(url, JSON.stringify(email));
     }
     
     delete(id: number) {
         const url = `${this.emailUrl}/${id}`;
-        return this.http.delete(url, {headers: this.headers})
-            .toPromise()
-            .then(() => null);
+        return this.http.delete(url);
     }
 }
