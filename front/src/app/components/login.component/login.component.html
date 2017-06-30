@@ -1,14 +1,20 @@
-<div class="container">
-    <h1>Login Page</h1>
-    <form #signupForm="ngForm" (ngSubmit)="checkIfUserExists(signupForm)">
-        <div class="form-group">
-            <label for="login">Login : </label>
-            <input type="text" id="login" name="login" placeholder="Entrez votre login" required [ngModel]="user.login">
+<!-- We’ll display the login form only if the user is not logged in -->
+<div class="jumbotron" *ngIf="!authenticated">
+    <h2>Login Form</h2>
+    <!-- We are going to build a reactive form and use many of the concepts we learned in the previous section in regards to validation. -->
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm(loginForm.value)">
+        <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['login'].valid && loginForm.controls['login'].touched}">
+            <label>Login:</label>
+            <input class="form-control" type="text" placeholder="Entrez votre login" [formControl]="loginForm.controls['login']">
+            <div *ngIf="loginForm.controls['login'].hasError('required') && loginForm.controls['login'].touched" class="alert alert-danger">You must add a login.</div>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['password'].valid && loginForm.controls['password'].touched}">
+            <label>Password:</label>
+            <input class="form-control" type="password" placeholder="Entrez votre password" [formControl]="loginForm.controls['password']">
+            <div *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched" class="alert alert-danger">You must add a password.</div>
         </div>
         <div class="form-group">
-            <label for="password">Password : </label>
-            <input type="password" id="password" name="password" placeholder="Entrez votre password" required [ngModel]="user.password">
+            <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Submit</button>
         </div>
-        <button type="submit" class="btn btn-default">Se connecter</button>
     </form>
 </div>

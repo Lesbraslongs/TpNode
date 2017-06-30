@@ -27,7 +27,7 @@ export class UserService {
                 //TODO set cookies with authorized user
                 response => {
                     // return new User(response.id,response.login, response.password);
-                    return new User(1,"login", "password");
+                    return new User();
                 }
             )
             .catch(this.handleError);
