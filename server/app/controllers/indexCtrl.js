@@ -1,4 +1,5 @@
 var User   = require('./../models/user.js'); // get our mongoose model
+const db = require('./../config/db');
 
 class IndexCtrl {
 
@@ -7,11 +8,17 @@ class IndexCtrl {
     }
 
     checkIfUserExists(req, res) {
-
+console.log(User);
+        User.findOne({login: req.body._login}, function(err, document) {
+            console.log(err);
+            console.log(document);
+        });
         // find the user
         User.findOne({
-            name: req.body.name
+            login: req.body._login
         }, function (err, user) {
+            console.log(user);
+            console.log(err);
 
             if (err) throw err;
 
