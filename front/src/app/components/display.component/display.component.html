@@ -1,5 +1,5 @@
 <div class="container">
-    <a routerLink="/login" routerLinkActive="active">Se deconnecter</a>
+    <button type="submit" value="Se deconnecter" (click)="logout()">Se deconnecter</button>
     <h1>Display Page</h1>
     <h2>Ajouter un email</h2>
     <form #addEmailForm="ngForm" (ngSubmit)="addEmail(addEmailForm.value)">
