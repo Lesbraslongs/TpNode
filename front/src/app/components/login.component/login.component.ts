@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from "../../model/User";
 import {Router} from "@angular/router";
@@ -11,10 +11,9 @@ import { FlashMessagesService } from 'angular2-flash-messages';
     styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent implements OnInit{
+export class LoginComponent {
 
     loginForm : FormGroup;
-    authenticated: boolean;
 
     constructor(
         fb: FormBuilder,
@@ -22,9 +21,11 @@ export class LoginComponent implements OnInit{
         private router: Router,
         private _flashMessagesService: FlashMessagesService
     ) {
+        //TODO clear localstorage is for debug purpose, remove it after
+        localStorage.removeItem('jwt');
+
         if(localStorage.getItem('jwt')){
-            this.authenticated = true;
-            this._flashMessagesService.show('You are already authenticated !', { cssClass: 'alert-success', timeout: 3000 });
+            this._flashMessagesService.show('You are already authenticated !', { cssClass: 'alert-success', timeout: 1500 });
             this.router.navigate(["/display"]);
         }
 
@@ -32,11 +33,6 @@ export class LoginComponent implements OnInit{
             'login' : [null, Validators.required],
             'password': [null, Validators.required],
         })
-    }
-
-    ngOnInit(){
-        //TODO clear localstorage for debug purpose
-        localStorage.clear();
     }
 
     submitForm(value: any){
@@ -69,8 +65,8 @@ export class LoginComponent implements OnInit{
             })
     }
 
-    logout(){
+    static logout() {
         localStorage.removeItem('jwt');
-        this.authenticated = false;
+        window.location.replace('/login');
     }
 }
