@@ -4,6 +4,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {Http} from '@angular/http';
+import {Router} from "@angular/router";
 
 import { Email } from '../../model/Email';
 import { EmailService } from '../../services/email.service';
@@ -14,7 +15,7 @@ import { EmailService } from '../../services/email.service';
     styleUrls: ['./display.component.css']
 })
 
-export class DisplayComponent {
+export class DisplayComponent  implements OnInit{
 
     model : Email;
     
@@ -22,16 +23,23 @@ export class DisplayComponent {
 
     constructor(
         private http: Http,
-        private emailService: EmailService
+        private emailService: EmailService,
+        private router: Router
     ) {
         this.model = new Email(1, "lavallee", "arnaud", "gmail.com");
     }
 
     ngOnInit(): void {
-        let emails = this.emailService.findAll();
-        for (let email of emails) {
-            this.buildEmail(email.firstname, email.name, email.domain);
+        //TODO checker le token en bdd
+        if(localStorage.getItem('jwt')){
+            let emails = this.emailService.findAll();
+            for (let email of emails) {
+                this.buildEmail(email.firstname, email.name, email.domain);
+            }
+        }else{
+            this.router.navigate(['/login']);
         }
+
     }
 
     addEmail(addEmailForm: NgForm) {

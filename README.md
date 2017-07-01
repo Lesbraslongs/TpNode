@@ -1,8 +1,10 @@
 # TpNode
 
 ## Getting started
-First install Node Js and npm.
+First install :
+    **Node Js**
+     **npm**
+     **mongoDb**
 
-Run the command `npm install` in front directory.
-
-Then simply run the command `npm start` to start the server and open the `localhost:3000` url.
+Simply run the command `npm start` in main directory to automatically install and launch the app.
+Run `npm run sd` for dev mode (skipping some dependencies)
