@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit{
                     console.log(res);
                     // We’ll subscribe to the request and capture the response
                     // If we get an id_token, we’ll know the request is successful so we’ll store the token in localStorage. We won’t handle the error use case for this tutorial.
+
                     if(res.token){
                         localStorage.setItem('jwt', res.token);
                         this._flashMessagesService.show(`Welcome ${user.login}`, { cssClass: 'alert-success', timeout: 3000 });
