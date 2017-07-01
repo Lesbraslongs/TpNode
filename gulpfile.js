@@ -68,6 +68,6 @@ gulp.task('start-server', function () {
 });
 
 gulp.task('start-angular', function (done) {
-    spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['start'], {stdio: 'inherit'})
+    spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['start'])
         .on('close', done);
 });

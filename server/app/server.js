@@ -43,33 +43,19 @@ app.get('/', function(req, res) {
 // get an instance of the router for api routes
 var apiRoutes = express.Router();
 
-app.get('/setup', function(req, res) {
-
-  // create a sample user
-  // var nick = new User({
-  //   login: 'admin',
-  //   password: 'admin',
-  //   admin: true
-  // });
-  //
-  // // save the sample user
-  // nick.save(function(err) {
-  //   if (err) throw err;
-  //
-  //   console.log('User saved successfully');
-  //   res.json({ success: true });
-  // });
-});
-
-// get an instance of the router for api routes
-var apiRoutes = express.Router();
-
 //Initialize controllers
 const indexCtrl = new IndexCtrl(app);
 // PUT METHODS
 app.put('/api/v1/register', indexCtrl.registerUser.bind(indexCtrl));
 
 // POST METHODS
+
+//route to get emails informations (GET http://localhost:8080/api/v1/display)
+app.get('/api/v1/display', indexCtrl.getEmailList.bind(indexCtrl));
+
+//route to post email informations (POST http://localhost:8080/api/v1/display)
+app.post('/api/v1/display', indexCtrl.getEmailList.bind(indexCtrl));
+
 // route to authenticate a user (POST http://localhost:8080/api/v1/login)
 app.post('/api/v1/login', indexCtrl.checkIfUserExists.bind(indexCtrl));
 
@@ -79,6 +65,7 @@ apiRoutes.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
+  console.log("aaa");
   // decode token
   if (token) {
 
@@ -103,20 +90,9 @@ apiRoutes.use(function(req, res, next) {
     });
 
   }
+  
 });
 
-// route to show a random message (GET http://localhost:8080/api/)
-apiRoutes.get('/', function(req, res) {
-  res.json({ message: 'Welcome to the coolest API on earth!' });
-});
-
-//token : users?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NDY1MDViMDFmYTAzYmUwMTUxMDYwOWIiLCJuYW1lIjoiTmljayBDZXJtaW5hcmEiLCJwYXNzd29yZCI6InBhc3N3b3JkIiwiYWRtaW4iOnRydWUsIl9fdiI6MH0.ah-NFQ1967WVeN6lYNAahT7hZtshG6kw6AW3ncuJOYw
-// route to return all users (GET http://localhost:8080/api/users)
-apiRoutes.get('/users', function(req, res) {
-  User.find({}, function(err, users) {
-    res.json(users);
-  });
-});
 
 // apply the routes to our application with the prefix /api
 app.use('/api/v1', apiRoutes);

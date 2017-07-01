@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/map';
 import { Email } from '../model/Email';
 import {Http} from '@angular/http';
 
@@ -10,32 +9,26 @@ import {Http} from '@angular/http';
  */
 @Injectable()
 export class EmailService {
-    private emailUrl = 'api/v1/emails';  // URL to web api
- 
+    private baseUrl = "http://localhost:8080/api/v1/display";
     constructor(private http: Http) { }
-     
+    
+    checkIfExists(email: Email){
+        return this.http.post(`${this.baseUrl}`, email)
+            .toPromise()
+            .then( response => response.json())
+            .catch(this.handleError);
+    }
+    
     findAll():any {
-        return this.http.get(this.emailUrl);
+        return this.http.get(`${this.baseUrl}`)
+            .toPromise()
+            .then( response => response.json())
+            .catch(this.handleError);
     }
-    
-    findById(id : number) {
-        const url = `${this.emailUrl}/${id}`;
-        return this.http.get(url);
-    }
-    
-    create(name: string, firstname: string, domain: string) {
-        return this.http
-          .post(this.emailUrl, JSON.stringify({name: name, firstname: firstname, domain: domain}));
-    }
-    
-    update(email: Email) {
-        const url = `${this.emailUrl}/${email.id}`;
-        return this.http
-            .put(url, JSON.stringify(email));
-    }
-    
-    delete(id: number) {
-        const url = `${this.emailUrl}/${id}`;
-        return this.http.delete(url);
-    }
+
+    private handleError(error: any): Promise<any> {
+        console.error('An error occured', error);
+        console.error(Promise.name);
+        return Promise.reject(error.message || error);
+    };
 }

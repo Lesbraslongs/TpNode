@@ -1,19 +1,25 @@
 <div class="container">
     <h1>Display Page</h1>
     <h2>Ajouter un email</h2>
-    <form #addEmailForm="ngForm" (ngSubmit)="addEmail(addEmailForm)">
+    <form #addEmailForm="ngForm" (ngSubmit)="addEmail(addEmailForm.value)">
         <div class="form-group">
             <label for="firstname">Prénom : </label>
-            <input type="text" id="firstname" name="firstname" placeholder="Entrez votre prénom" [(ngModel)]="model.firstname" required >
+            <input type="text" id="firstname" name="firstname" placeholder="Entrez votre prénom" required >
         </div>
         <div class="form-group">
             <label for="name">Nom : </label>
-            <input type="text" id="name" name="name" placeholder="Entrez votre nom" [(ngModel)]="model.name" required >
+            <input type="text" id="name" name="name" placeholder="Entrez votre nom" required >
         </div>
         <div class="form-group">
             <label for="domain">Domaine : </label>
-            <input type="text" id="domain" name="domain" placeholder="Entrez votre domaine" [(ngModel)]="model.domain" required >
+            <input type="text" id="domain" name="domain" placeholder="Entrez votre domaine" required >
         </div>
         <button type="submit" class="btn btn-default">Envoyer</button>
     </form>
+</div>
+
+<div *ngFor="let email of emails" class="container">
+    <ul>
+    	<li>{{email}}</li>
+    </ul>
 </div>

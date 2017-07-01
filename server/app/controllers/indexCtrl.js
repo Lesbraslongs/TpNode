@@ -1,7 +1,8 @@
-var User   = require('./../models/user.js'); // get our mongoose model
-const db = require('./../config/db').db;
+var User     = require('./../models/user.js'); // get our user mongoose model
+var Email    = require('./../models/email.js'); // get our email mongoose model
+const db     = require('./../config/db').db;
 const config = require('./../config/config');
-const jwt = require('jsonwebtoken');
+const jwt    = require('jsonwebtoken');
 
 class IndexCtrl {
 
@@ -58,6 +59,38 @@ class IndexCtrl {
                 }
             }
         });
+    }
+    
+    getEmailList(req, res) {
+//        var emailTest = new Email({
+//            firstname: 'arnaud',
+//            name: 'lavallee',
+//            domain: 'gmail.com'
+//        });
+//        
+//        // save the sample email
+//        emailTest.save(function(err) {
+//            if (err) throw err;
+//
+//            console.log('Email saved successfully');
+//            res.json({ success: true });
+//        });
+
+	    Email.find(null, function (err, emails) {
+	        if (err) throw err;
+	
+	        if (!emails) {
+	            res.json({success: false, message: 'Emails not found.'});
+	        } else if (emails) {
+	
+	            // return the information as JSON
+	            res.json({
+	                success: true,
+	                message: 'Emails found !',
+	                emails: emails
+	            });
+	        }
+	    });
     }
 }
 

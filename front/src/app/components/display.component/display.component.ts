@@ -15,47 +15,61 @@ import { EmailService } from '../../services/email.service';
     styleUrls: ['./display.component.css']
 })
 
-export class DisplayComponent  implements OnInit{
+export class DisplayComponent  implements OnInit {
 
     model : Email;
     
-    emails : string[];
+    emails : string[] = [];
 
     constructor(
         private http: Http,
         private emailService: EmailService,
         private router: Router
     ) {
-        this.model = new Email(1, "lavallee", "arnaud", "gmail.com");
     }
 
     ngOnInit(): void {
         //TODO checker le token en bdd
         if(localStorage.getItem('jwt')){
-            let emails = this.emailService.findAll();
-            for (let email of emails) {
-                this.buildEmail(email.firstname, email.name, email.domain);
-            }
+            this.emailService.findAll()
+                .then(
+                    (res:any)=>{
+                        this.buildEmail(res.emails);
+                    }
+                );
         }else{
             this.router.navigate(['/login']);
         }
 
     }
 
-    addEmail(addEmailForm: NgForm) {
-        this.model = addEmailForm.form.value;
-        console.log(this.model);
-        this.emailService.create(this.model.firstname, this.model.name, this.model.domain);        
+    buildEmail(emailsList: any) {
+        for (let email of emailsList) {
+
+            this.emails.push(email.firstname + email.name + '@' + email.domain);
+            this.emails.push(email.name + email.firstname + '@' + email.domain);
+            this.emails.push(email.firstname + '.' + email.name + '@' + email.domain);
+            this.emails.push(email.name + '.' + email.firstname + '@' + email.domain);
+            this.emails.push(email.firstname + '-' + email.name + '@' + email.domain);
+            this.emails.push(email.name + '-' + email.firstname + '@' + email.domain);
+            this.emails.push(email.firstname + '_' + email.name + '@' + email.domain);
+            this.emails.push(email.name + '_' + email.name + '@' + email.domain);
+        }
     }
     
-    buildEmail(firstname: string, name: string, domain: string) {
-        this.emails.push(firstname + name + '@' + domain);
-        this.emails.push(name + firstname + '@' + domain);
-        this.emails.push(firstname + '.' + name + '@' + domain);
-        this.emails.push(name + '.' + firstname + '@' + domain);
-        this.emails.push(firstname + '-' + name + '@' + domain);
-        this.emails.push(name + '-' + firstname + '@' + domain);
-        this.emails.push(firstname + '_' + name + '@' + domain);
-        this.emails.push(name + '_' + name + '@' + domain);
+    addEmail(value: any) {
+        console.log(this.model);
+        let email = new Email(value.id, value.firstname, value.name, value.domain);
+        this.model = value.form.value;
+        this.emailService.checkIfExists(email)
+            .then(
+                (res:any)=>{
+                    console.log(res);
+                    
+                }
+            )
+            .catch(error => {
+                console.log(error);
+            })    
     }
 }
