@@ -3,6 +3,7 @@ export class User {
     private _id: number;
     private _login: string;
     private _password: string;
+    private _admin: boolean;
     constructor(
 
     ) {}
@@ -31,5 +32,14 @@ export class User {
     set password(value: string) {
         this._password = value;
     }
-    //endregion
+
+    get admin(): boolean {
+        return this._admin;
+    }
+
+    set admin(value: boolean) {
+        this._admin = value;
+    }
+
+//endregion
 }

@@ -10,7 +10,7 @@ let nodemonOptions = {
     env: {'NODE_ENV': 'development'},
     verbose: false,
     ignore: [],
-    watch: ['server/app/*']
+    watch: ['../server/app/*']
 };
 gulp.task('start', (callback) => {
     runSequence(

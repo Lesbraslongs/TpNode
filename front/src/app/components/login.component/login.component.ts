@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from "../../model/User";
 import {Router} from "@angular/router";
@@ -11,7 +11,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
     styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 
     loginForm : FormGroup;
     authenticated: boolean;
@@ -32,6 +32,11 @@ export class LoginComponent {
             'login' : [null, Validators.required],
             'password': [null, Validators.required],
         })
+    }
+
+    ngOnInit(){
+        //TODO clear localstorage for debug purpose
+        localStorage.clear();
     }
 
     submitForm(value: any){
