@@ -9,6 +9,7 @@ import {DisplayComponent} from '../components/display.component/display.componen
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UserService} from "../services/user.service";
 import {EmailService} from "../services/email.service";
+import { FlashMessagesModule } from 'angular2-flash-messages';
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import {EmailService} from "../services/email.service";
         HttpModule,
         AppRoutingModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FlashMessagesModule
         ],
     declarations: [
         AppComponent,

@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from "../../model/User";
 import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
     selector: 'login.component',
@@ -18,10 +19,12 @@ export class LoginComponent {
     constructor(
         fb: FormBuilder,
         private userService: UserService,
-        private router: Router
+        private router: Router,
+        private _flashMessagesService: FlashMessagesService
     ) {
         if(localStorage.getItem('jwt')){
             this.authenticated = true;
+            this._flashMessagesService.show('You are already authenticated !', { cssClass: 'alert-success', timeout: 3000 });
             this.router.navigate(["/display"]);
         }
 
@@ -45,14 +48,16 @@ export class LoginComponent {
                     // If we get an id_token, we’ll know the request is successful so we’ll store the token in localStorage. We won’t handle the error use case for this tutorial.
                     if(res.token){
                         localStorage.setItem('jwt', res.token);
+                        this._flashMessagesService.show(`Welcome ${user.login}`, { cssClass: 'alert-success', timeout: 3000 });
                         this.router.navigate(["/display"]);
                     }else{
-                        console.log(res.message);
+                        this._flashMessagesService.show(res.message, { cssClass: 'alert-warning', timeout: 3000 });
                     }
                     this.loginForm.reset();
                 }
             )
             .catch(error => {
+                this._flashMessagesService.show(error, { cssClass: 'alert-danger', timeout: 3000 });
                 console.log(error);
                 this.loginForm.reset();
             })
