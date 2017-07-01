@@ -54,16 +54,16 @@ export class LoginComponent implements OnInit{
 
                     if(res.token){
                         localStorage.setItem('jwt', res.token);
-                        this._flashMessagesService.show(`Welcome ${user.login}`, { cssClass: 'alert-success', timeout: 3000 });
+                        this._flashMessagesService.show(`Welcome ${user.login}`, { cssClass: 'alert-success', timeout: 2000 });
                         this.router.navigate(["/display"]);
                     }else{
-                        this._flashMessagesService.show(res.message, { cssClass: 'alert-warning', timeout: 3000 });
+                        this._flashMessagesService.show(res.message, { cssClass: 'alert-warning', timeout: 2000 });
                     }
                     this.loginForm.reset();
                 }
             )
             .catch(error => {
-                this._flashMessagesService.show(error, { cssClass: 'alert-danger', timeout: 3000 });
+                this._flashMessagesService.show(error, { cssClass: 'alert-danger', timeout: 2000 });
                 console.log(error);
                 this.loginForm.reset();
             })

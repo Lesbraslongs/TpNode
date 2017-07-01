@@ -57,8 +57,23 @@ export class RegisterComponent {
 
         this.userService.registerUser(user)
             .then( response => {
-                this._flashMessagesService.show(response.message, { cssClass: 'alert-success', timeout: 3000 });
-                this.router.navigate(["/login"]);
+                console.log(response);
+                let messageClass: string;
+                let route: string;
+                if(response.success == true){
+                    messageClass = 'alert-success';
+                    route = "/login";
+                }else{
+                    messageClass = 'alert-danger';
+                    route = "/register";
+                }
+
+                console.log(messageClass);
+                console.log(route);
+                this._flashMessagesService.grayOut(true);
+                this._flashMessagesService.show(response.message, { cssClass: messageClass, timeout: 2000 });
+                this.router.navigate([route]);
+
             })
             .catch( error => {
                 console.log(error);
