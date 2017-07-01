@@ -46,7 +46,7 @@ var apiRoutes = express.Router();
 //Initialize controllers
 const indexCtrl = new IndexCtrl(app);
 // PUT METHODS
-app.put('/api/v1/register', indexCtrl.registerUser.bind(indexCtrl));
+app.post('/api/v1/register', indexCtrl.registerUser.bind(indexCtrl));
 
 // POST METHODS
 
@@ -61,7 +61,6 @@ app.post('/api/v1/login', indexCtrl.checkIfUserExists.bind(indexCtrl));
 
 // route middleware to verify a token
 apiRoutes.use(function(req, res, next) {
-
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
@@ -81,6 +80,7 @@ apiRoutes.use(function(req, res, next) {
     });
 
   } else {
+    console.log(req.query.url);
 
     // if there is no token
     // return an error

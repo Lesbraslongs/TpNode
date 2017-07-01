@@ -12,23 +12,28 @@ class IndexCtrl {
 
     registerUser(req, res) {
 
+        User.findOne({
+            login: req.body._login
+        }, (err,foundUser) => {
+            if(foundUser){
+                res.json({success: false, message: 'A user with the same login already exists'});
+            }else{
+
+                let user = new User({
+                    login: req.body._login,
+                    password: req.body._password,
+                    admin: false
+                });
+
+                user.save( (err) => {
+                    if(err) throw err;
+                    res.json({ success: true , message: 'You are now able to login with your credentials'});
+                })
+            }
+        });
     }
 
     checkIfUserExists(req, res) {
-
-        // var nick = new User({
-        //     login: 'a',
-        //     password: 'a',
-        //     admin: true
-        // });
-        //
-        // // save the sample user
-        // nick.save(function(err) {
-        //     if (err) throw err;
-        //
-        //     console.log('User saved successfully');
-        //     res.json({ success: true });
-        // });
 
         User.findOne({
             login: req.body._login

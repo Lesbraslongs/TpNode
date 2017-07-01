@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from "../../model/User";
 import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
     selector: 'login.component',
@@ -10,7 +11,7 @@ import {UserService} from "../../services/user.service";
     styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 
     loginForm : FormGroup;
     authenticated: boolean;
@@ -18,10 +19,12 @@ export class LoginComponent {
     constructor(
         fb: FormBuilder,
         private userService: UserService,
-        private router: Router
+        private router: Router,
+        private _flashMessagesService: FlashMessagesService
     ) {
         if(localStorage.getItem('jwt')){
             this.authenticated = true;
+            this._flashMessagesService.show('You are already authenticated !', { cssClass: 'alert-success', timeout: 3000 });
             this.router.navigate(["/display"]);
         }
 
@@ -29,6 +32,11 @@ export class LoginComponent {
             'login' : [null, Validators.required],
             'password': [null, Validators.required],
         })
+    }
+
+    ngOnInit(){
+        //TODO clear localstorage for debug purpose
+        localStorage.clear();
     }
 
     submitForm(value: any){
@@ -46,14 +54,16 @@ export class LoginComponent {
 
                     if(res.token){
                         localStorage.setItem('jwt', res.token);
+                        this._flashMessagesService.show(`Welcome ${user.login}`, { cssClass: 'alert-success', timeout: 2000 });
                         this.router.navigate(["/display"]);
                     }else{
-                        console.log(res.message);
+                        this._flashMessagesService.show(res.message, { cssClass: 'alert-warning', timeout: 2000 });
                     }
                     this.loginForm.reset();
                 }
             )
             .catch(error => {
+                this._flashMessagesService.show(error, { cssClass: 'alert-danger', timeout: 2000 });
                 console.log(error);
                 this.loginForm.reset();
             })
