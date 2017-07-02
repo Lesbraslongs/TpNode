@@ -5,6 +5,7 @@ var express     = require('express');
 var app         = express();
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
+let corser      = require('corser');
 
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config/config.js'); // get our config file
@@ -22,6 +23,12 @@ app.use(bodyParser.json());
 
 // use morgan to log requests to the console
 app.use(morgan('dev'));
+
+// =======================
+// middlewares ===========
+// =======================
+//Handle CORS OPTIONS request
+app.use(corser.create());
 
 // =======================
 // routes ================
@@ -52,13 +59,11 @@ var apiRoutes = express.Router();
 // //route to post email informations (POST http://localhost:8080/api/v1/display)
 // app.post('/api/v1/display', indexCtrl.getEmailList.bind(indexCtrl));
 
-
 // route middleware to verify a token
 apiRoutes.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
-  console.log("aaa");
   // decode token
   if (token) {
 
@@ -74,7 +79,6 @@ apiRoutes.use(function(req, res, next) {
     });
 
   } else {
-    console.log(req.query.url);
 
     // if there is no token
     // return an error

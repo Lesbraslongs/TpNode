@@ -1,9 +1,7 @@
 let express = require('express');
 let router = express.Router();
-let corser      = require('corser');
 let UserCtrl = require('./../controllers/userCtrl');
 
-router.use(corser.create());
 
 //Initialize controller
 const userCtrl = new UserCtrl();

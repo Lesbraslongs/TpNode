@@ -7,5 +7,4 @@ let emailSchema = new Schema({
     name: String,
     domain: String
 });
-// set up a mongoose model and pass it using module.exports
 module.exports = mongoose.model('Email', emailSchema);

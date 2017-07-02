@@ -2,15 +2,14 @@ let gulp = require('gulp');
 let nodemon = require('gulp-nodemon');
 let spawn = require('child_process').spawn;
 let runSequence = require('run-sequence');
-
-
+let baseDir = __dirname;
 let nodemonOptions = {
-    script: '../server/app/server.js',
+    script: baseDir+'/server/app/server.js',
     ext: 'js',
     env: {'NODE_ENV': 'development'},
     verbose: false,
     ignore: [],
-    watch: ['../server/app/*']
+    watch: ['server/app/*']
 };
 
 gulp.task('start', (callback) => {
@@ -51,9 +50,11 @@ gulp.task('tests', (callback) => {
         callback);
 });
 
+process.chdir(baseDir);
+
 let dirs = {
-    server: 'server/',
-    front: './../front/'
+    server: baseDir+'/server/',
+    front: baseDir+'/front/'
 };
 
 gulp.task('install-dep', (done) => {
@@ -62,7 +63,6 @@ gulp.task('install-dep', (done) => {
 });
 
 gulp.task('install-server-dev',  (done) => {
-    process.chdir(dirs.server);
     spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['install','--dev'], {stdio: 'inherit'})
         .on('close', done);
 });

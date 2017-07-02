@@ -25,12 +25,13 @@
 
       // other libraries
       'rxjs':                      'npm:rxjs',
-      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
         'angular2-flash-messages':    'npm:angular2-flash-messages',
+        'traceur':'npm:traceur/bin'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
       app: {
+        main: './main.js',
         defaultExtension: 'js',
         meta: {
           './*.js': {
@@ -44,7 +45,10 @@
       "angular2-flash-messages": {
           main: 'index.js',
           defaultExtension: 'js'
-      }
+      },
+        traceur:{
+            main: 'traceur'
+        }
     }
   });
 })(this);
