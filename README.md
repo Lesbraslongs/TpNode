@@ -6,7 +6,9 @@ First install :
      **npm**
      **mongoDb**
 
-Simply run the command `npm start` in main directory to automatically install and launch the app.
+Run `npm install`
+
+Then simply run the command `npm start` in main directory to automatically install and launch the app.
 
 Run `npm run dev` for dev mode (installing devDependencies)
 

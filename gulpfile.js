@@ -14,7 +14,6 @@ let nodemonOptions = {
 
 gulp.task('start', (callback) => {
     runSequence(
-        'install-dep',
         'install-server',
         'install-front',
         ['start-mongo',
@@ -43,8 +42,7 @@ gulp.task('start-services', (callback) => {
 
 gulp.task('tests', (callback) => {
     runSequence(
-        ['install-dep',
-        'install-server-dev',
+        ['install-server-dev',
         'install-front-dev'],
         'test',
         callback);
@@ -56,11 +54,6 @@ let dirs = {
     server: baseDir+'/server/',
     front: baseDir+'/front/'
 };
-
-gulp.task('install-dep', (done) => {
-    spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['install'], {stdio: 'inherit'})
-        .on('close', done);
-});
 
 gulp.task('install-server-dev',  (done) => {
     spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['install','--dev'], {stdio: 'inherit'})
