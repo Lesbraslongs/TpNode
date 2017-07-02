@@ -9,7 +9,7 @@ let nodemonOptions = {
     env: {'NODE_ENV': 'development'},
     verbose: false,
     ignore: [],
-    watch: ['server/app/*']
+    watch: [baseDir+'/server/app/*']
 };
 
 gulp.task('start', (callback) => {
@@ -91,6 +91,7 @@ gulp.task('start-mongo',  (done) => {
 });
 
 gulp.task('start-server', () => {
+    process.chdir(dirs.server);
     nodemon(nodemonOptions)
         .on('restart', () => {
             console.log('restarted!')
@@ -98,11 +99,13 @@ gulp.task('start-server', () => {
 });
 
 gulp.task('start-angular', (done) => {
-    spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['start'], {stdio: 'inherit'})
+    process.chdir(dirs.front);
+    spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['start'])
         .on('close', done);
 });
 
 gulp.task('test',  (done) => {
+    process.chdir(dirs.front);
     spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['test'], {stdio: 'inherit'})
         .on('close', done)
 });

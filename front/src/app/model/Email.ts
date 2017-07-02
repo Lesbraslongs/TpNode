@@ -1,22 +1,53 @@
 export class Email {
-    id : number;
+    /**
+     * The technical identifier of the email informations.
+     */
+    _id : number;
+        
+    /**
+     * The name of the email information.
+     */
+    _name : string;
+
+    /**
+     * The firstname of the email information.
+     */
+    _firstname : string;
     
-    name : string;
-    
-    firstname : string;
-    
-    domain : string;
-    
-    constructor(
-        id: number,
-        name: string,
-        firstname: string,
-        domain: string
-    ) {
-        this.id = id;
-        this.name = name;
-        this.firstname = firstname;
-        this.domain = domain    
+    /**
+     * The domain of the email information.
+     */
+    _domain : string;
+
+    get id(): number {
+        return this._id;
     }
 
+    get name(): string {
+        return this._name;
+    }
+
+    get firstname(): string {
+        return this._firstname;
+    }
+
+    get domain(): string {
+        return this._domain;
+    }
+    
+    set id(value: number) {
+        this._id = value;
+    }
+    
+    set name(value: string) {
+        this._name = value;
+    }
+    
+    set firstname(value: string) {
+        this._firstname = value;
+    }
+    
+    set domain(value: string) {
+        this._domain = value;
+    }
 }

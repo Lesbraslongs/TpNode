@@ -5,18 +5,18 @@ import {Http} from '@angular/http';
 
 @Injectable()
 export class EmailService {
-    private baseUrl = "http://localhost:8080/api/v1/display";
+    private baseUrl = "http://localhost:8080/api/v1/email/";
     constructor(private http: Http) { }
     
     checkIfExists(email: Email){
-        return this.http.post(`${this.baseUrl}`, email)
+        return this.http.post(`${this.baseUrl}display`, email)
             .toPromise()
             .then( response => response.json())
             .catch(this.handleError);
     }
     
     findAll():any {
-        return this.http.get(`${this.baseUrl}`)
+        return this.http.get(`${this.baseUrl}display`)
             .toPromise()
             .then( response => response.json())
             .catch(this.handleError);

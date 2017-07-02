@@ -9,7 +9,8 @@ let corser      = require('corser');
 
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config/config.js'); // get our config file
-var user = require('./routers/userRouter');
+var userRouter = require('./routers/userRouter');
+var emailRouter = require('./routers/emailRouter');
 
 // =======================
 // configuration =========
@@ -35,60 +36,51 @@ app.use(corser.create());
 // =======================
 
 //user routes
-app.use('/login',user);
-app.use('/register',user);
+app.use('/api/v1/user',userRouter);
+app.use('/api/v1/email',emailRouter);
 
 // basic route
 app.get('/', function(req, res) {
     res.send('Hello! The API is at http://localhost:' + port + '/api/v1/login');
 });
-// app.post('/api/v1/login', function(req,res){console.log("ok");});
-// API ROUTES -------------------
 
 // get an instance of the router for api routes
 var apiRoutes = express.Router();
 
-
-// PUT METHODS
-
-// POST METHODS
-
-// //route to get emails informations (GET http://localhost:8080/api/v1/display)
-// app.get('/api/v1/display', indexCtrl.getEmailList.bind(indexCtrl));
-//
-// //route to post email informations (POST http://localhost:8080/api/v1/display)
-// app.post('/api/v1/display', indexCtrl.getEmailList.bind(indexCtrl));
-
 // route middleware to verify a token
 apiRoutes.use(function(req, res, next) {
-  // check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    //Exclude login and register routes
+  if(req.url != '/login' && req.url != "/register") {
 
-  // decode token
-  if (token) {
+      // check header or url parameters or post parameters for token
+      var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
-    // verifies secret and checks exp
-    jwt.verify(token, app.get('superSecret'), function(err, decoded) {
-      if (err) {
-        return res.json({ success: false, message: 'Failed to authenticate token.' });
+      // decode token
+      if (token) {
+
+          // verifies secret and checks exp
+          jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+              if (err) {
+                  return res.json({ success: false, message: 'Failed to authenticate token.' });
+              } else {
+                  // if everything is good, save to request for use in other routes
+                  req.decoded = decoded;
+                  next();
+              }
+          });
+
       } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
-        next();
+
+          // if there is no token
+          // return an error
+          return res.status(403).send({
+              success: false,
+              message: 'No token provided.'
+          });
       }
-    });
-
-  } else {
-
-    // if there is no token
-    // return an error
-    return res.status(403).send({
-        success: false,
-        message: 'No token provided.'
-    });
-
+  }else{
+     next();
   }
-  
 });
 
 

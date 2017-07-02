@@ -1,8 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
 
-import {Email} from '../../model/Email';
-import {EmailService} from '../../services/email.service';
+// angular import
+import { Component, OnInit } from '@angular/core';
+import { Router            } from "@angular/router";
+
+//business import
+import { Email                              } from '../../model/Email';
+import { EmailService                       } from '../../services/email.service';
+import { FlashMessagesService               } from 'angular2-flash-messages';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'display.component',
@@ -14,10 +19,23 @@ export class DisplayComponent implements OnInit {
 
     model: Email;
 
+    addEmailForm : FormGroup;
+    
+    emailInfo: any[] = [];
+
     emails: string[] = [];
 
-    constructor(private emailService: EmailService,
-                private router: Router) {
+    constructor(
+        fb: FormBuilder,
+        private _flashMessagesService: FlashMessagesService,
+        private emailService: EmailService,
+        private router: Router,
+    ) {
+        this.addEmailForm = fb.group({
+            'firstname' : [null, Validators.required],
+            'name': [null, Validators.required],
+            'domain': [null, Validators.required],
+        })
     }
 
     ngOnInit(): void {
@@ -26,36 +44,51 @@ export class DisplayComponent implements OnInit {
             this.emailService.findAll()
                 .then(
                     (res: any) => {
-                        this.buildEmail(res.emails);
+                        this.buildEmailsInfo(res.emails);
                     }
                 );
         } else {
+            this._flashMessagesService.show(`You are not authorized to view this page !`, { cssClass: 'alert-danger', timeout: 2000 });
             this.router.navigate(['/login']);
         }
     }
-
-    buildEmail(emailsList: any) {
-        for (let email of emailsList) {
-
-            this.emails.push(email.firstname + email.name + '@' + email.domain);
-            this.emails.push(email.name + email.firstname + '@' + email.domain);
-            this.emails.push(email.firstname + '.' + email.name + '@' + email.domain);
-            this.emails.push(email.name + '.' + email.firstname + '@' + email.domain);
-            this.emails.push(email.firstname + '-' + email.name + '@' + email.domain);
-            this.emails.push(email.name + '-' + email.firstname + '@' + email.domain);
-            this.emails.push(email.firstname + '_' + email.name + '@' + email.domain);
-            this.emails.push(email.name + '_' + email.name + '@' + email.domain);
+    
+    buildEmailsInfo(emailsInfoList : any) {
+        for (let info of emailsInfoList) {
+            this.emailInfo.push({
+                firstname : info.firstname,
+                name : info.name,
+                domain : info.domain,
+                emails : [
+                    info.firstname + info.name + '@' + info.domain,
+                    info.name + info.firstname + '@' + info.domain,
+                    info.firstname + '.' + info.name + '@' + info.domain,
+                    info.name + '.' + info.firstname + '@' + info.domain,
+                    info.firstname + '-' + info.name + '@' + info.domain,
+                    info.name + '-' + info.firstname + '@' + info.domain,
+                    info.firstname + '_' + info.name + '@' + info.domain,
+                    info.name + '_' + info.name + '@' + info.domain
+                ]
+            })
         }
     }
-
-    addEmail(value: any) {
-        console.log(this.model);
-        let email = new Email(value.id, value.firstname, value.name, value.domain);
-        this.model = value.form.value;
+    
+    addEmail(addEmailForm: any) { 
+        this.model = addEmailForm.value;
+        let email = new Email();
+        email.firstname = this.model.firstname;
+        email.name = this.model.name;
+        email.domain = this.model.domain;
+   
         this.emailService.checkIfExists(email)
             .then(
                 (res: any) => {
                     console.log(res);
+                    if(res.success === true) {
+                        this._flashMessagesService.show(`Email information added with success !`, { cssClass: 'alert-success', timeout: 2000 });
+                        // TODO : Essayer de trouver une meilleur solution.
+                        window.location.reload();
+                    }
                 }
             )
             .catch(error => {

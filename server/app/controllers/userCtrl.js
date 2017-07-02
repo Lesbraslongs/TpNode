@@ -36,8 +36,6 @@ class IndexCtrl {
         User.findOne({
             login: req.body._login
         }, function (err, user) {
-            console.log(user);
-            console.log(err);
 
             if (err) throw err;
 
