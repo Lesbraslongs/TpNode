@@ -38,8 +38,6 @@ class IndexCtrl {
         User.findOne({
             login: req.body._login
         }, function (err, user) {
-            console.log(user);
-            console.log(err);
 
             if (err) throw err;
 
@@ -62,6 +60,36 @@ class IndexCtrl {
                         token: jwt.sign(user,config.secret)
                     });
                 }
+            }
+        });
+    }
+    
+    checkIfEmailExists(req, res) {
+        Email.find({
+            firstname: req.body._firstname,
+            name: req.body._name,
+            domain: req.body._domain,
+        }, function (err, emails) {
+        	console.log(emails);
+            if (err) {
+        	  return console.log("error: " + err);
+        	}
+
+            if (emails.length === 0) {
+                res.json({success: true, message: 'Ce mail n\'éxiste pas.'});
+                var newEmail = new Email({
+                    firstname: req.body._firstname,
+                    name: req.body._name,
+                    domain: req.body._domain
+                });
+                newEmail.save(function(err) {
+                  if (err) throw err;
+                	
+    	            console.log('Email saved successfully');
+    	        });
+            } else if (emails.length > 0) {
+
+            	res.json({success: false, message: 'Ce mail éxiste déjà !'});
             }
         });
     }

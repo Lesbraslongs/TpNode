@@ -54,7 +54,7 @@ app.post('/api/v1/register', indexCtrl.registerUser.bind(indexCtrl));
 app.get('/api/v1/display', indexCtrl.getEmailList.bind(indexCtrl));
 
 //route to post email informations (POST http://localhost:8080/api/v1/display)
-app.post('/api/v1/display', indexCtrl.getEmailList.bind(indexCtrl));
+app.post('/api/v1/display', indexCtrl.checkIfEmailExists.bind(indexCtrl));
 
 // route to authenticate a user (POST http://localhost:8080/api/v1/login)
 app.post('/api/v1/login', indexCtrl.checkIfUserExists.bind(indexCtrl));
@@ -64,7 +64,6 @@ apiRoutes.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
-  console.log("aaa");
   // decode token
   if (token) {
 

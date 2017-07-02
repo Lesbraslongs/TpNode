@@ -1,13 +1,14 @@
 /**
  * Created by Children on 29/06/2017.
  */
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {Http} from '@angular/http';
 import {Router} from "@angular/router";
 
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Email } from '../../model/Email';
 import { EmailService } from '../../services/email.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
     selector: 'display.component',
@@ -21,11 +22,21 @@ export class DisplayComponent  implements OnInit {
     
     emails : string[] = [];
 
+    addEmailForm : FormGroup;
+
     constructor(
+        fb: FormBuilder,
         private http: Http,
         private emailService: EmailService,
-        private router: Router
+        private router: Router,
+        private _flashMessagesService: FlashMessagesService,
+        private changeDetector: ChangeDetectorRef
     ) {
+        this.addEmailForm = fb.group({
+            'firstname' : [null, Validators.required],
+            'name': [null, Validators.required],
+            'domain': [null, Validators.required],
+        })
     }
 
     ngOnInit(): void {
@@ -57,15 +68,22 @@ export class DisplayComponent  implements OnInit {
         }
     }
     
-    addEmail(value: any) {
-        console.log(this.model);
-        let email = new Email(value.id, value.firstname, value.name, value.domain);
-        this.model = value.form.value;
+    addEmail(addEmailForm: any) { 
+        this.model = addEmailForm.value;
+        let email = new Email();
+        email.firstname = this.model.firstname;
+        email.name = this.model.name;
+        email.domain = this.model.domain;
+        
         this.emailService.checkIfExists(email)
             .then(
                 (res:any)=>{
                     console.log(res);
-                    
+                    if(res.success === true) {
+                        this._flashMessagesService.show(`Email information added with success !`, { cssClass: 'alert-success', timeout: 2000 });
+                        // TODO : Essayer de trouver une meilleur solution.
+                        window.location.reload();
+                    }
                 }
             )
             .catch(error => {
