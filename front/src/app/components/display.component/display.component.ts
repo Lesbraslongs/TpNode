@@ -1,14 +1,15 @@
 /**
  * Created by Children on 29/06/2017.
  */
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import {Http} from '@angular/http';
-import {Router} from "@angular/router";
+// angular import
+import { Component, OnInit } from '@angular/core';
+import { Router            } from "@angular/router";
 
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Email } from '../../model/Email';
-import { EmailService } from '../../services/email.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
+//business import
+import { Email                              } from '../../model/Email';
+import { EmailService                       } from '../../services/email.service';
+import { FlashMessagesService               } from 'angular2-flash-messages';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'display.component',
@@ -26,11 +27,9 @@ export class DisplayComponent  implements OnInit {
 
     constructor(
         fb: FormBuilder,
-        private http: Http,
+        private _flashMessagesService: FlashMessagesService,
         private emailService: EmailService,
         private router: Router,
-        private _flashMessagesService: FlashMessagesService,
-        private changeDetector: ChangeDetectorRef
     ) {
         this.addEmailForm = fb.group({
             'firstname' : [null, Validators.required],
