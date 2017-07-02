@@ -10,6 +10,7 @@ var corser      = require('corser');
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config/config.js'); // get our config file
 var IndexCtrl = require('./controllers/indexCtrl'); // get the controller
+var EmailCtrl = require('./controllers/emailCtrl'); // get the controller
 
 // =======================
 // configuration =========
@@ -45,16 +46,17 @@ var apiRoutes = express.Router();
 
 //Initialize controllers
 const indexCtrl = new IndexCtrl(app);
+const emailCtrl = new EmailCtrl(app);
 // PUT METHODS
 app.post('/api/v1/register', indexCtrl.registerUser.bind(indexCtrl));
 
 // POST METHODS
 
 //route to get emails informations (GET http://localhost:8080/api/v1/display)
-app.get('/api/v1/display', indexCtrl.getEmailList.bind(indexCtrl));
+app.get('/api/v1/display', emailCtrl.getEmailList.bind(indexCtrl));
 
 //route to post email informations (POST http://localhost:8080/api/v1/display)
-app.post('/api/v1/display', indexCtrl.checkIfEmailExists.bind(indexCtrl));
+app.post('/api/v1/display', emailCtrl.checkIfEmailExists.bind(indexCtrl));
 
 // route to authenticate a user (POST http://localhost:8080/api/v1/login)
 app.post('/api/v1/login', indexCtrl.checkIfUserExists.bind(indexCtrl));
