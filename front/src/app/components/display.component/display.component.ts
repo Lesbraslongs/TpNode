@@ -17,13 +17,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
     styleUrls: ['./display.component.css']
 })
 
-export class DisplayComponent  implements OnInit {
+export class DisplayComponent implements OnInit {
 
-    model : Email;
-    
-    emails : string[] = [];
+    model: Email;
 
     addEmailForm : FormGroup;
+
+    emails: string[] = [];
 
     constructor(
         fb: FormBuilder,
@@ -40,17 +40,16 @@ export class DisplayComponent  implements OnInit {
 
     ngOnInit(): void {
         //TODO checker le token en bdd
-        if(localStorage.getItem('jwt')){
+        if (localStorage.getItem('jwt')) {
             this.emailService.findAll()
                 .then(
-                    (res:any)=>{
+                    (res: any) => {
                         this.buildEmail(res.emails);
                     }
                 );
-        }else{
+        } else {
             this.router.navigate(['/login']);
         }
-
     }
 
     buildEmail(emailsList: any) {
@@ -73,10 +72,10 @@ export class DisplayComponent  implements OnInit {
         email.firstname = this.model.firstname;
         email.name = this.model.name;
         email.domain = this.model.domain;
-        
+   
         this.emailService.checkIfExists(email)
             .then(
-                (res:any)=>{
+                (res: any) => {
                     console.log(res);
                     if(res.success === true) {
                         this._flashMessagesService.show(`Email information added with success !`, { cssClass: 'alert-success', timeout: 2000 });
@@ -87,6 +86,11 @@ export class DisplayComponent  implements OnInit {
             )
             .catch(error => {
                 console.log(error);
-            })    
+            })
+    }
+
+    logout() {
+        localStorage.removeItem('jwt');
+        this.router.navigate(["login"]);
     }
 }

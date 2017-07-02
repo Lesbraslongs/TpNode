@@ -1,4 +1,5 @@
 <div class="container">
+    <button type="submit" value="Se deconnecter" (click)="logout()">Se deconnecter</button>
     <h1>Display Page</h1>
     <h2>Ajouter un email</h2>
     <form [formGroup]="addEmailForm" (ngSubmit)="addEmail(addEmailForm)">
