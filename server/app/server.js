@@ -50,7 +50,7 @@ var apiRoutes = express.Router();
 // route middleware to verify a token
 apiRoutes.use(function(req, res, next) {
     //Exclude login and register routes
-  if(req.url != '/login' && req.url != "/register") {
+  if(req.url != '/api/v1/user/login' && req.url != "/api/v1/user/register") {
 
       // check header or url parameters or post parameters for token
       var token = req.body.token || req.query.token || req.headers['x-access-token'];
