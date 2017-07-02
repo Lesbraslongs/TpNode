@@ -3,10 +3,6 @@ import 'rxjs/add/operator/toPromise';
 import { Email } from '../model/Email';
 import {Http} from '@angular/http';
 
-/**
- * Created by Children on 29/06/2017.
- * Angular service used to manage Email.
- */
 @Injectable()
 export class EmailService {
     private baseUrl = "http://localhost:8080/api/v1/display";

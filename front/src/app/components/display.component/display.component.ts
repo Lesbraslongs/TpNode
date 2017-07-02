@@ -1,6 +1,3 @@
-/**
- * Created by Children on 29/06/2017.
- */
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 

@@ -1,6 +1,3 @@
-/**
- * Created by Vincent Léné on 21/06/2017.
- */
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {RegisterComponent} from '../components/register.component/register.component';

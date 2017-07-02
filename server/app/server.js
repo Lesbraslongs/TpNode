@@ -5,11 +5,10 @@ var express     = require('express');
 var app         = express();
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
-var corser      = require('corser');
 
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config/config.js'); // get our config file
-var IndexCtrl = require('./controllers/indexCtrl'); // get the controller
+var user = require('./routers/userRouter');
 
 // =======================
 // configuration =========
@@ -25,14 +24,13 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 // =======================
-// middlewares ===========
-// =======================
-app.use(corser.create());
-
-
-// =======================
 // routes ================
 // =======================
+
+//user routes
+app.use('/login',user);
+app.use('/register',user);
+
 // basic route
 app.get('/', function(req, res) {
     res.send('Hello! The API is at http://localhost:' + port + '/api/v1/login');
@@ -43,21 +41,17 @@ app.get('/', function(req, res) {
 // get an instance of the router for api routes
 var apiRoutes = express.Router();
 
-//Initialize controllers
-const indexCtrl = new IndexCtrl(app);
+
 // PUT METHODS
-app.post('/api/v1/register', indexCtrl.registerUser.bind(indexCtrl));
 
 // POST METHODS
 
-//route to get emails informations (GET http://localhost:8080/api/v1/display)
-app.get('/api/v1/display', indexCtrl.getEmailList.bind(indexCtrl));
+// //route to get emails informations (GET http://localhost:8080/api/v1/display)
+// app.get('/api/v1/display', indexCtrl.getEmailList.bind(indexCtrl));
+//
+// //route to post email informations (POST http://localhost:8080/api/v1/display)
+// app.post('/api/v1/display', indexCtrl.getEmailList.bind(indexCtrl));
 
-//route to post email informations (POST http://localhost:8080/api/v1/display)
-app.post('/api/v1/display', indexCtrl.getEmailList.bind(indexCtrl));
-
-// route to authenticate a user (POST http://localhost:8080/api/v1/login)
-app.post('/api/v1/login', indexCtrl.checkIfUserExists.bind(indexCtrl));
 
 // route middleware to verify a token
 apiRoutes.use(function(req, res, next) {
