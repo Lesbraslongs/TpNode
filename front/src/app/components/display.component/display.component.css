@@ -1,0 +1,15 @@
+.infoList{
+	background-color : lightgrey;
+}
+
+.infoListHeader{
+	background-color : black;
+	color : white;
+	font-weight : bold;
+}
+
+.row{
+	margin : 0 0 0 20px ;
+	width : 400px;
+	max-width : 400px;
+}

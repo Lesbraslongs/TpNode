@@ -1,4 +1,4 @@
-<div class="container">
+<div class="jumbotron">
     <button type="submit" value="Se deconnecter" (click)="logout()">Se deconnecter</button>
     <h1>Display Page</h1>
     <h2>Ajouter un email</h2>
@@ -28,8 +28,54 @@
     </form>
 </div>
 
-<div *ngFor="let email of emails" class="container">
-    <ul>
-    	<li>{{email}}</li>
-    </ul>
+<div>
+	<div>
+	    <div class="infoListHeader row">
+	        <div class="col-md-4">
+	            Firstname
+	        </div>
+	        <div class="col-md-4">
+	            Name
+	        </div>
+	        <div class="col-md-4">
+	            Domain
+	        </div>
+	    </div>
+	</div>
+</div>
+<div *ngFor="let info of emailInfo">
+	<div>
+	    <div class="infoList row">
+	        <div class="col-md-4">
+	            {{info.firstname}}
+	        </div>
+	        <div class="col-md-4">
+	            {{info.name}}
+	        </div>
+	        <div class="col-md-4">
+	            {{info.domain}}
+	        </div>
+	    </div>
+	</div>
+</div>
+<hr>
+<div>
+	<div>
+	    <div class="infoListHeader row">
+	        <div class="col-md-6">
+	            liste des emails
+	        </div>
+	    </div>
+	</div>
+</div>
+<div *ngFor="let info of emailInfo">
+	<div *ngFor="let email of info.emails">
+		<div>
+		    <div class="infoList row">
+		        <div class="col-md-6">
+		            {{email}}
+		        </div>
+		    </div>
+		</div>
+	</div>
 </div>

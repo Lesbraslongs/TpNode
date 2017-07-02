@@ -22,6 +22,8 @@ export class DisplayComponent implements OnInit {
     model: Email;
 
     addEmailForm : FormGroup;
+    
+    emailInfo: any[] = [];
 
     emails: string[] = [];
 
@@ -44,25 +46,31 @@ export class DisplayComponent implements OnInit {
             this.emailService.findAll()
                 .then(
                     (res: any) => {
-                        this.buildEmail(res.emails);
+                        this.buildEmailsInfo(res.emails);
                     }
                 );
         } else {
             this.router.navigate(['/login']);
         }
     }
-
-    buildEmail(emailsList: any) {
-        for (let email of emailsList) {
-
-            this.emails.push(email.firstname + email.name + '@' + email.domain);
-            this.emails.push(email.name + email.firstname + '@' + email.domain);
-            this.emails.push(email.firstname + '.' + email.name + '@' + email.domain);
-            this.emails.push(email.name + '.' + email.firstname + '@' + email.domain);
-            this.emails.push(email.firstname + '-' + email.name + '@' + email.domain);
-            this.emails.push(email.name + '-' + email.firstname + '@' + email.domain);
-            this.emails.push(email.firstname + '_' + email.name + '@' + email.domain);
-            this.emails.push(email.name + '_' + email.name + '@' + email.domain);
+    
+    buildEmailsInfo(emailsInfoList : any) {
+        for (let info of emailsInfoList) {
+            this.emailInfo.push({
+                firstname : info.firstname,
+                name : info.name,
+                domain : info.domain,
+                emails : [
+                    info.firstname + info.name + '@' + info.domain,
+                    info.name + info.firstname + '@' + info.domain,
+                    info.firstname + '.' + info.name + '@' + info.domain,
+                    info.name + '.' + info.firstname + '@' + info.domain,
+                    info.firstname + '-' + info.name + '@' + info.domain,
+                    info.name + '-' + info.firstname + '@' + info.domain,
+                    info.firstname + '_' + info.name + '@' + info.domain,
+                    info.name + '_' + info.name + '@' + info.domain
+                ]
+            })
         }
     }
     
