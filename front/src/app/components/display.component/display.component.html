@@ -1,38 +1,40 @@
-<div class="jumbotron">
-    <div class="container">
-        <button type="submit" class="btn btn-danger" value="Se deconnecter" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span> Se deconnecter</button>
-	</div>
-    
-    
-    <div class="container">
-	    <h2>Ajouter un email</h2>
-	    <form [formGroup]="addEmailForm" (ngSubmit)="addEmail(addEmailForm)">
-	        <div class="form-group" [ngClass]="{'has-error':!addEmailForm.controls['firstname'].valid && addEmailForm.controls['firstname'].touched}">
-	            <label for="firstname">Prénom : </label>
-	            <input class="form-control" type="text" placeholder="Entrez votre prénom" [formControl]="addEmailForm.controls['firstname']">
-	            <div *ngIf="addEmailForm.controls['firstname'].hasError('required') && addEmailForm.controls['firstname'].touched" class="alert alert-danger">
-	                You must add a firstname.
-	            </div>
-	        </div>
-	        <div class="form-group" [ngClass]="{'has-error':!addEmailForm.controls['name'].valid && addEmailForm.controls['name'].touched}">
-	            <label for="name">Nom : </label>
-	            <input class="form-control" type="text" placeholder="Entrez votre nom" [formControl]="addEmailForm.controls['name']">
-	            <div *ngIf="addEmailForm.controls['name'].hasError('required') && addEmailForm.controls['name'].touched" class="alert alert-danger">
-	                You must add a name.
-	            </div>
-	        </div>
-	        <div class="form-group" [ngClass]="{'has-error':!addEmailForm.controls['domain'].valid && addEmailForm.controls['domain'].touched}">
-	            <label for="domain">Domaine : </label>
-	            <input class="form-control" type="text" placeholder="Entrez votre domaine" [formControl]="addEmailForm.controls['domain']">
-	            <div *ngIf="addEmailForm.controls['domain'].hasError('required') && addEmailForm.controls['domain'].touched" class="alert alert-danger">
-	                You must add a domain.
-	            </div>
-	        </div>
-	        <button type="submit" class="btn btn-primary" [disabled]="!addEmailForm.valid">Envoyer</button>
-	    </form>
+<div class="container">
+    <div class="jumbotron">
+	    <div class="container">
+	        <button type="submit" class="btn btn-danger" value="Se deconnecter" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span> Se deconnecter</button>
+		</div>
+
+	    <div class="container">
+		    <h2>Ajouter un email</h2>
+		    <form [formGroup]="addEmailForm" (ngSubmit)="addEmail(addEmailForm)">
+		        <div class="form-group" [ngClass]="{'has-error':!addEmailForm.controls['firstname'].valid && addEmailForm.controls['firstname'].touched}">
+		            <label for="firstname">Prénom : </label>
+		            <input class="form-control" type="text" placeholder="Entrez votre prénom" [formControl]="addEmailForm.controls['firstname']">
+		            <div *ngIf="addEmailForm.controls['firstname'].hasError('required') && addEmailForm.controls['firstname'].touched" class="alert alert-danger">
+		                You must add a firstname.
+		            </div>
+		        </div>
+		        <div class="form-group" [ngClass]="{'has-error':!addEmailForm.controls['name'].valid && addEmailForm.controls['name'].touched}">
+		            <label for="name">Nom : </label>
+		            <input class="form-control" type="text" placeholder="Entrez votre nom" [formControl]="addEmailForm.controls['name']">
+		            <div *ngIf="addEmailForm.controls['name'].hasError('required') && addEmailForm.controls['name'].touched" class="alert alert-danger">
+		                You must add a name.
+		            </div>
+		        </div>
+		        <div class="form-group" [ngClass]="{'has-error':!addEmailForm.controls['domain'].valid && addEmailForm.controls['domain'].touched}">
+		            <label for="domain">Domaine : </label>
+		            <input class="form-control" type="text" placeholder="Entrez votre domaine" [formControl]="addEmailForm.controls['domain']">
+		            <div *ngIf="addEmailForm.controls['domain'].hasError('required') && addEmailForm.controls['domain'].touched" class="alert alert-danger">
+		                You must add a domain.
+		            </div>
+		        </div>
+		        <button type="submit" class="btn btn-primary" [disabled]="!addEmailForm.valid">Envoyer</button>
+		    </form>
+	    </div>
     </div>
 </div>
-<div class="container">
+
+<div *ngIf="emailInfo.length > 0" class="container">
 	<table class="table table-striped">
 		<tr>
 		    <th>
@@ -60,7 +62,7 @@
 </div>
 <hr>
 
-<div class="container">
+<div *ngIf="emailInfo.length > 0" class="container">
 	<h2>Liste des emails</h2>
 	<table class="table table-striped" *ngFor="let info of emailInfo">
 	    <tr *ngFor="let email of info.emails">
