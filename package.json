@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "gulp start",
-    "sd": "gulp start-dev",
-    "run": "gulp start-services"
+    "dev": "gulp start-dev",
+    "run": "gulp start-services",
+    "test": "gulp tests"
   },
   "repository": {
     "type": "git",

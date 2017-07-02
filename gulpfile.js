@@ -12,6 +12,7 @@ let nodemonOptions = {
     ignore: [],
     watch: ['../server/app/*']
 };
+
 gulp.task('start', (callback) => {
     runSequence(
         'install-dep',
@@ -25,8 +26,8 @@ gulp.task('start', (callback) => {
 
 gulp.task('start-dev', (callback) => {
     runSequence(
-        'install-server',
-        'install-front',
+        'install-server-dev',
+        'install-front-dev',
         ['start-mongo',
             'start-server',
             'start-angular'],
@@ -41,6 +42,15 @@ gulp.task('start-services', (callback) => {
         callback);
 });
 
+gulp.task('tests', (callback) => {
+    runSequence(
+        ['install-dep',
+        'install-server-dev',
+        'install-front-dev'],
+        'test',
+        callback);
+});
+
 let dirs = {
     server: 'server/',
     front: './../front/'
@@ -51,14 +61,26 @@ gulp.task('install-dep', (done) => {
         .on('close', done);
 });
 
-process.chdir(dirs.server);
+gulp.task('install-server-dev',  (done) => {
+    process.chdir(dirs.server);
+    spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['install','--dev'], {stdio: 'inherit'})
+        .on('close', done);
+});
+
+gulp.task('install-front-dev',  (done) => {
+    process.chdir(dirs.front);
+    spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['install','--dev'], {stdio: 'inherit'})
+        .on('close', done)
+});
+
 gulp.task('install-server',  (done) => {
+    process.chdir(dirs.server);
     spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['install'], {stdio: 'inherit'})
         .on('close', done);
 });
 
-process.chdir(dirs.front);
 gulp.task('install-front',  (done) => {
+    process.chdir(dirs.front);
     spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['install'], {stdio: 'inherit'})
         .on('close', done)
 });
@@ -78,4 +100,9 @@ gulp.task('start-server', () => {
 gulp.task('start-angular', (done) => {
     spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['start'], {stdio: 'inherit'})
         .on('close', done);
+});
+
+gulp.task('test',  (done) => {
+    spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['test'], {stdio: 'inherit'})
+        .on('close', done)
 });

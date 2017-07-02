@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
+    "module": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
@@ -9,6 +9,10 @@
     "lib": [ "es2015", "dom" ],
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": [
+      "node",
+      "jasmine"
+    ]
   }
 }
