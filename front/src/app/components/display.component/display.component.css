@@ -17,3 +17,8 @@
 	width : 400px;
 	max-width : 400px;
 }
+
+.divider{
+	color: black;
+    width: 70%;
+}
