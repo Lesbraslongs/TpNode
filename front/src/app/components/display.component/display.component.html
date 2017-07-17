@@ -63,6 +63,9 @@
 <hr>
 
 <div *ngIf="emailInfo.length > 0" class="container">
+    <button type="submit" class="btn btn-success pull-right" value="Download CSV" (click)="exportToCsv()">
+        <span class="glyphicon glyphicon-download"></span>Télécharger au format CSV
+    </button>
 	<h2>Liste des emails</h2>
 	<table class="table table-striped" *ngFor="let info of emailInfo">
 	    <tr *ngFor="let email of info.emails">
