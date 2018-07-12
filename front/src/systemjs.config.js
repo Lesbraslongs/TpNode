@@ -25,8 +25,8 @@
       'angular2-csv': 'node_modules/angular2-csv',
 
       // other libraries
-      'rxjs':                      'npm:rxjs',
-        'angular2-flash-messages':    'npm:angular2-flash-messages',
+        'rxjs':                      'npm:rxjs',
+        'angular2-flash-messages':   'npm:angular2-flash-messages',
         'traceur':'npm:traceur/bin'
     },
     // packages tells the System loader how to load when no filename and/or no extension

@@ -74,7 +74,7 @@ class IndexCtrl {
                     res.json({
                         success: true,
                         message: 'Enjoy your token!',
-                        token: jwt.sign(user, config.secret)
+                        token: jwt.sign(user.toJSON(), config.secret)
                     });
 
 

@@ -1,0 +1,33 @@
+.door-card {
+  display: flex;
+}
+
+.door-details {
+  background-color: #eee;
+  border: 1px solid #000;
+  border-radius: 5%;
+  height: auto;
+  width: auto;
+  margin: 15px;
+  padding: 15px;
+}
+
+span {
+  display: block;
+}
+
+.haut {
+  display: inline-block;
+}
+
+.description {
+  display: block;
+}
+
+.address {
+  display: block;
+}
+
+.add-door-form {
+  width: 60%;
+}

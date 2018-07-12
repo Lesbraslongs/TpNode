@@ -1,7 +1,7 @@
 const Mongoose = require('mongoose');
 const config = require('./config');
 
-Mongoose.connect(config.database);
+Mongoose.connect(config.database, { useMongoClient: true });
 
 const db = Mongoose.connection;
 

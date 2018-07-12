@@ -24,11 +24,13 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@angular/cdk": "^6.3.3",
     "@angular/common": "~4.0.0",
     "@angular/compiler": "~4.0.0",
     "@angular/core": "~4.0.0",
     "@angular/forms": "~4.0.0",
     "@angular/http": "~4.0.0",
+    "@angular/material": "^6.3.3",
     "@angular/platform-browser": "~4.0.0",
     "@angular/platform-browser-dynamic": "~4.0.0",
     "@angular/router": "~4.0.0",
@@ -45,6 +47,7 @@
     "zone.js": "^0.8.13"
   },
   "devDependencies": {
+    "@angular/cli": "^6.0.8",
     "@types/jasmine": "^2.5.36",
     "@types/node": "^6.0.83",
     "canonical-path": "0.0.2",

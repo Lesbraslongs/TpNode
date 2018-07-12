@@ -11,6 +11,7 @@ var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config/config.js'); // get our config file
 var userRouter = require('./routers/userRouter');
 var emailRouter = require('./routers/emailRouter');
+var doorRouter = require('./routers/doorRouter');
 
 // =======================
 // configuration =========
@@ -29,15 +30,22 @@ app.use(morgan('dev'));
 // middlewares ===========
 // =======================
 //Handle CORS OPTIONS request
-app.use(corser.create());
+// app.use(corser.create());
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');
+    next();
+});
 
 // =======================
 // routes ================
 // =======================
 
 //user routes
-app.use('/api/v1/user',userRouter);
-app.use('/api/v1/email',emailRouter);
+app.use('/api/v1/user', userRouter);
+app.use('/api/v1/email', emailRouter);
+app.use('/api/v1/doors', doorRouter);
 
 // basic route
 app.get('/', function(req, res) {
@@ -49,7 +57,7 @@ var apiRoutes = express.Router();
 
 // route middleware to verify a token
 apiRoutes.use(function(req, res, next) {
-    //Exclude login and register routes
+  // Exclude login and register routes
   if(req.url != '/api/v1/user/login' && req.url != "/api/v1/user/register") {
 
       // check header or url parameters or post parameters for token
@@ -83,9 +91,9 @@ apiRoutes.use(function(req, res, next) {
   }
 });
 
-
 // apply the routes to our application with the prefix /api
 app.use('/api/v1', apiRoutes);
+
 
 
 

@@ -1,16 +1,16 @@
-import {Http} from "@angular/http";
-import {User} from "../model/User";
-import {Injectable} from "@angular/core";
+import {Http} from '@angular/http';
+import {User} from '../model/User';
+import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class UserService  {
 
-    private baseUrl = "http://localhost:8080/api/v1/user/";
+    private baseUrl = 'http://localhost:8080/api/v1/user/';
 
-    constructor(private http: Http){}
+    constructor(private http: Http) {}
 
-    checkIfExists(user: User){
+    checkIfExists(user: User) {
         return this.http.post(`${this.baseUrl}login`, user)
             .toPromise()
             .then( response => response.json())
@@ -18,7 +18,7 @@ export class UserService  {
     }
 
     registerUser(user: User) {
-        return this.http.post(`${this.baseUrl}register`,user)
+        return this.http.post(`${this.baseUrl}register`, user)
             .toPromise()
             .then( response => response.json())
             .catch(this.handleError);

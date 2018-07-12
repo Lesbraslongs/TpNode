@@ -5,3 +5,7 @@
 .log-in-btn{
 	text-decoration:none;
 }
+
+.login-form {
+	width: 60%;
+}

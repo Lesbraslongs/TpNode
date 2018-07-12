@@ -1,9 +1,9 @@
 
 // angular import
 import { Component, OnInit } from '@angular/core';
-import { Router            } from "@angular/router";
+import { Router            } from '@angular/router';
 
-//business import
+// business import
 import { Email                              } from '../../model/Email';
 import { EmailService                       } from '../../services/email.service';
 import { FlashMessagesService               } from 'angular2-flash-messages';
@@ -36,11 +36,11 @@ export class DisplayComponent implements OnInit {
             'firstname': [null, Validators.required],
             'name': [null, Validators.required],
             'domain': [null, Validators.required],
-        })
+        });
     }
 
     ngOnInit(): void {
-        //TODO checker le token en bdd
+        // TODO checker le token en bdd
         if (localStorage.getItem('jwt')) {
             this.emailService.findAll()
                 .then(
@@ -70,7 +70,7 @@ export class DisplayComponent implements OnInit {
                     info.firstname + '_' + info.name + '@' + info.domain,
                     info.name + '_' + info.name + '@' + info.domain
                 ]
-            })
+            });
         }
     }
 
@@ -94,16 +94,16 @@ export class DisplayComponent implements OnInit {
             )
             .catch(error => {
                 console.log(error);
-            })
+            });
     }
 
     logout() {
         localStorage.removeItem('jwt');
-        this.router.navigate(["login"]);
+        this.router.navigate(['login']);
     }
 
     exportToCsv() {
-        //TODO checker le token en bdd
+        // TODO checker le token en bdd
         if (localStorage.getItem('jwt')) {
             this.emailService.findAll()
                 .then(

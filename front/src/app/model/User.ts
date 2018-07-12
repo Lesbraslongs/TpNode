@@ -8,7 +8,7 @@ export class User {
 
     ) {}
 
-    //region getter and setters
+    // region getter and setters
     get id(): number {
         return this._id;
     }
@@ -41,5 +41,5 @@ export class User {
         this._admin = value;
     }
 
-//endregion
+// endregion
 }

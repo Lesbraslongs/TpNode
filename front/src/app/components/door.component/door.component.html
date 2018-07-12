@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="jumbotron add-door-form">
+	    <div class="container">
+	        <button type="submit" class="btn btn-danger pull-right" value="Logout" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span>LOG OUT</button>
+		</div>
+
+	    <div class="container">
+		    <button class="btn btn-light" (click)="toggleForm()"><h2>Add a door</h2></button>
+		    <form id="form-add" [formGroup]="addDoorForm" (ngSubmit)="addDoor(addDoorForm)" style="display:none">
+		        <div class="form-group" [ngClass]="{'has-error':!addDoorForm.controls['name'].valid && addDoorForm.controls['name'].touched}">
+		            <label for="name">Name : </label>
+		            <input class="form-control" type="text" placeholder="Please enter a name for this door" [formControl]="addDoorForm.controls['name']">
+		            <div *ngIf="addDoorForm.controls['name'].hasError('required') && addDoorForm.controls['name'].touched" class="alert alert-danger">
+		                You must add a name.
+		            </div>
+		        </div>
+		        <div class="form-group" [ngClass]="{'has-error':!addDoorForm.controls['description'].valid && addDoorForm.controls['description'].touched}">
+		            <label for="description">Description : </label>
+		            <textarea cols="40" rows="5" class="form-control" type="text" placeholder="Please enter a description for this door" [formControl]="addDoorForm.controls['description']"></textarea>
+		            <div *ngIf="addDoorForm.controls['description'].hasError('required') && addDoorForm.controls['description'].touched" class="alert alert-danger">
+		                You must add a description.
+		            </div>
+		        </div>
+		        <div class="form-group" [ngClass]="{'has-error':!addDoorForm.controls['address'].valid && addDoorForm.controls['address'].touched}">
+		            <label for="address">Address : </label>
+		            <input class="form-control" type="text" placeholder="Please enter an address for this door" [formControl]="addDoorForm.controls['address']">
+		            <div *ngIf="addDoorForm.controls['address'].hasError('required') && addDoorForm.controls['address'].touched" class="alert alert-danger">
+		                You must add an address.
+		            </div>
+				</div>
+				<div class="form-group" [ngClass]="{'has-error':!addDoorForm.controls['startDate'].valid && addDoorForm.controls['startDate'].touched}">
+		            <label for="startDate">Starting Date : </label>
+		            <input class="form-control" type="date" placeholder="Please enter a starting date for this door" [formControl]="addDoorForm.controls['startDate']">
+		            <div *ngIf="addDoorForm.controls['startDate'].hasError('required') && addDoorForm.controls['startDate'].touched" class="alert alert-danger">
+		                You must add a starting date.
+		            </div>
+				</div>
+				<div class="form-group" [ngClass]="{'has-error':!addDoorForm.controls['endDate'].valid && addDoorForm.controls['endDate'].touched}">
+		            <label for="endDate">Ending Date : </label>
+		            <input class="form-control" type="date" placeholder="Please enter an ending date for this door" [formControl]="addDoorForm.controls['endDate']">
+		            <div *ngIf="addDoorForm.controls['endDate'].hasError('required') && addDoorForm.controls['endDate'].touched" class="alert alert-danger">
+		                You must add an ending date.
+		            </div>
+		        </div>
+		        <button type="submit" class="btn btn-primary" [disabled]="!addDoorForm.valid">Submit</button>
+		    </form>
+	    </div>
+    </div>
+</div>
+
+<div *ngIf="doorInfo.length > 0" class="container">
+	<h2>Doors List</h2>
+	<div class="container door-card">
+		<!-- <tr>
+			<th></th>
+		    <th>
+		        Name
+		    </th>
+		    <th>
+		        Description
+		    </th>
+		    <th>
+		        Address
+			</th>
+			<th>
+				Opening dates
+			</th>
+			<th></th>
+		</tr> -->
+		<div class="door-details" *ngFor="let info of doorInfo">
+			<span class="haut">
+				<button class="btn btn-success" (click)="openDoor(info.id)">Open</button>
+			</span>
+		    <span class="haut">
+		        <h3>{{info.name}}</h3>
+		    </span>
+		    <span class="description">
+		        <b>Description : </b><br>{{info.description}}
+		    </span>
+		    <span class="address">
+					<b>Address : </b><br>{{info.address}}
+			</span>
+			<span>
+					<b>Opening Dates : </b><br>From {{info.startDate | date:'d/M/yyyy h:mm:ss'}}
+				<br>To {{info.endDate | date:'d/M/yyyy h:mm:ss'}}
+			</span>
+			<span>
+				<button class="btn btn-danger" (click)="delete(info.id)">Delete</button>
+			</span>
+		</div>
+	</div>
+</div>
+<hr>
